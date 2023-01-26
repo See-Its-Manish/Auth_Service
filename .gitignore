@@ -1,4 +1,3 @@
-.gitignore
 node-modules/
 .env
 src/config/config.json
