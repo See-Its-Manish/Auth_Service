@@ -24,6 +24,14 @@ class UserRepository {
         }
     }
 
+    async getUserById(id) {
+        try {
+            
+        } catch (error) {
+            console.log("Something went wrong in repository layer");
+        }
+    }
+
     
 }
 
