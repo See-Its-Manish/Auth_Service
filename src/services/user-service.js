@@ -37,6 +37,35 @@ class UserService {
         }
     }
 
+    async signIn(email,plainPassword) {
+        try {
+            // fetch user by email
+            const user = await this.userRepository.getByEmail(email);
+            // compare encrpted password with plain password
+            const passwordsMatch = this.checkPassword(plainPassword,user.password);
+            if(!passwordsMatch){
+                console.log("Password doesn't match");
+                throw {error : 'Incorrect password'};
+            }
+
+            const newJWT = this.createToken({email : user.email, id : user.id});
+            return newJWT;
+
+        } catch (error) {
+            console.log("Something went wrong in sign in process");
+            throw error;
+        }
+    }
+
+
+    checkPassword(userInputPlainPassword, encryptedPassword) {
+        try {
+            return bcrypt.compareSync(userInputPlainPassword, encryptedPassword);
+        } catch (error) {
+            console.log("Something went wrong in password comparision");
+            throw error;
+        }
+    }
 }
 
 module.exports = UserService;
